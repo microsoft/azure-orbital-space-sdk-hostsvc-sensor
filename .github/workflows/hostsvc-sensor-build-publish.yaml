@@ -1,0 +1,48 @@
+name: hostsvc-sensor-build
+
+on: 
+    workflow_dispatch:
+    push:
+        branches:
+        - main
+
+jobs:
+  build-hostsvc-sensor-amd64:
+    permissions:
+      contents: read
+      packages: write
+
+    uses: microsoft/azure-orbital-space-sdk-github-actions/.github/workflows/service-build.yml@main
+    with:
+      APP_PROJECT: ./src/hostsvc-sensor.csproj
+      NUGET_PROJECT: ./src_pluginBase/pluginBase.csproj
+      OUTPUT_DIR: /var/spacedev/tmp/hostsvc-sensor
+      NUGET_STAGING_DIRECTORY: /var/spacedev/nuget/sensor
+      NUGET_FILE_PREFIX: Microsoft.Azure.SpaceSDK.HostServices.Sensor.Plugins
+      ANNOTATION: azure-orbital-space-sdk-hostsvc-sensor.yaml
+      WORKFLOW_AGENT: ubuntu-latest
+      ARCHITECTURE: amd64
+    secrets:
+      GIT_HUB_USER_NAME: ${{ secrets.GIT_HUB_USER_NAME }}
+      GIT_HUB_USER_TOKEN: ${{ secrets.GIT_HUB_USER_TOKEN }}
+      SETUP_REPO_URL: ${{ secrets.SETUP_REPO_URL }}
+
+  build-hostsvc-sensor-arm64:
+    permissions:
+      contents: read
+      packages: write
+
+    uses: microsoft/azure-orbital-space-sdk-github-actions/.github/workflows/service-build.yml@main
+    with:
+      APP_PROJECT: ./src/hostsvc-sensor.csproj
+      NUGET_PROJECT: ./src_pluginBase/pluginBase.csproj
+      OUTPUT_DIR: /var/spacedev/tmp/hostsvc-sensor
+      NUGET_STAGING_DIRECTORY: /var/spacedev/nuget/sensor
+      NUGET_FILE_PREFIX: Microsoft.Azure.SpaceSDK.HostServices.Sensor.Plugins
+      ANNOTATION: azure-orbital-space-sdk-hostsvc-sensor.yaml
+      WORKFLOW_AGENT: spacesdk-ubuntu-2204LTS-arm64
+      ARCHITECTURE: arm64
+    secrets:
+      GIT_HUB_USER_NAME: ${{ secrets.GIT_HUB_USER_NAME }}
+      GIT_HUB_USER_TOKEN: ${{ secrets.GIT_HUB_USER_TOKEN }}
+      SETUP_REPO_URL: ${{ secrets.SETUP_REPO_URL }}

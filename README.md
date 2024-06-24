@@ -1,6 +1,6 @@
 # Azure Orbital Space SDK - Hostsvc-Sensor
 
-[![spacefx-dev-build-publish](https://github.com/microsoft/azure-orbital-space-sdk-core/actions/workflows/devcontainer-feature-build-publish.yml/badge.svg)](https://github.com/microsoft/azure-orbital-space-sdk-core/actions/workflows/devcontainer-feature-build-publish.yml)
+[![hostsvc-sensor-build](https://github.com/microsoft/azure-orbital-space-sdk-hostsvc-sensor/actions/workflows/hostsvc-sensor-build-publish.yaml/badge.svg)](https://github.com/microsoft/azure-orbital-space-sdk-hostsvc-sensor/actions/workflows/hostsvc-sensor-build-publish.yaml)
 
 This repository hosts the Hostsvc-Sensor.
 
