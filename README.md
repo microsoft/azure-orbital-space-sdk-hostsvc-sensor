@@ -2,6 +2,8 @@
 
 [![hostsvc-sensor-build](https://github.com/microsoft/azure-orbital-space-sdk-hostsvc-sensor/actions/workflows/hostsvc-sensor-build-publish.yaml/badge.svg)](https://github.com/microsoft/azure-orbital-space-sdk-hostsvc-sensor/actions/workflows/hostsvc-sensor-build-publish.yaml)
 
+[![test-hostsvc-sensor](https://github.com/microsoft/azure-orbital-space-sdk-hostsvc-sensor/actions/workflows/hostsvc-sensor-test.yaml/badge.svg)](https://github.com/microsoft/azure-orbital-space-sdk-hostsvc-sensor/actions/workflows/hostsvc-sensor-test.yaml)
+
 This repository hosts the Hostsvc-Sensor.
 
 Outputs:
