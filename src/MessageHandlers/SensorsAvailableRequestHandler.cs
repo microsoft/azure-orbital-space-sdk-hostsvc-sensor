@@ -87,20 +87,20 @@ public partial class MessageHandler<T> {
                 return;
             }
 
-            _logger.LogInformation("Response to request message type '{messageType}' is '{returnResponseStatus}' (Response Message is '{returnResponseMessage}') (trackingId: '{trackingId}' / correlationId: '{correlationId}')", message.GetType().Name, returnResponse.ResponseHeader.Status, returnResponse.ResponseHeader.Message, message.RequestHeader.TrackingId, message.RequestHeader.CorrelationId);
+            _logger.LogInformation("Response to request message type '{messageType}' is '{returnResponseStatus}' (Response Message is '{returnResponseMessage}') (trackingId: '{trackingId}' / correlationId: '{correlationId}' / status: '{status}')", message.GetType().Name, returnResponse.ResponseHeader.Status, returnResponse.ResponseHeader.Message, message.RequestHeader.TrackingId, message.RequestHeader.CorrelationId, returnResponse.ResponseHeader.Status);
 
 
             if (returnResponse.ResponseHeader.Status == MessageFormats.Common.StatusCodes.Successful) {
                 _logger.LogTrace("Caching '{messageType}' (trackingId: '{trackingId}' / correlationId: '{correlationId}')", message.GetType().Name, message.RequestHeader.TrackingId, message.RequestHeader.CorrelationId);
                 _client.SaveCacheItem(cacheItem: message, cacheItemName: message.RequestHeader.TrackingId, expiration: DateTime.UtcNow.AddMinutes(15)).Wait();
             } else {
-                _logger.LogWarning("Unable to process '{messageType}'.  Response Status is '{returnResponseStatus}'.  Response Message is '{returnResponseMessage}' (trackingId: '{trackingId}' / correlationId: '{correlationId}')", message.GetType().Name, returnResponse.ResponseHeader.Status, returnResponse.ResponseHeader.Message, message.RequestHeader.TrackingId, message.RequestHeader.CorrelationId);
+                _logger.LogWarning("Unable to process '{messageType}'.  Response Status is '{returnResponseStatus}'.  Response Message is '{returnResponseMessage}' (trackingId: '{trackingId}' / correlationId: '{correlationId}' / status: '{status}')", message.GetType().Name, returnResponse.ResponseHeader.Status, returnResponse.ResponseHeader.Message, message.RequestHeader.TrackingId, message.RequestHeader.CorrelationId, returnResponse.ResponseHeader.Status);
             }
 
             returnResponse = output_response;
             message = output_request;
 
-            _logger.LogInformation("Routing message type '{messageType}' to '{appId}' (trackingId: '{trackingId}' / correlationId: '{correlationId}')", returnResponse.GetType().Name, fullMessage.SourceAppId, message.RequestHeader.TrackingId, message.RequestHeader.CorrelationId);
+            _logger.LogInformation("Routing message type '{messageType}' to '{appId}' (trackingId: '{trackingId}' / correlationId: '{correlationId}' / status: '{status}')", returnResponse.GetType().Name, fullMessage.SourceAppId, message.RequestHeader.TrackingId, message.RequestHeader.CorrelationId, returnResponse.ResponseHeader.Status);
             _client.DirectToApp(appId: fullMessage.SourceAppId, message: returnResponse);
         };
     }

@@ -37,7 +37,7 @@ public partial class MessageHandler<T> : Microsoft.Azure.SpaceFx.Core.IMessageHa
                 case string messageType when messageType.Equals(typeof(MessageFormats.HostServices.Sensor.SensorsAvailableResponse).Name, StringComparison.CurrentCultureIgnoreCase):
                     if (message == null) return;
 
-                    _logger.LogInformation("Processing message type '{messageType}' from '{sourceApp}' (trackingId: '{trackingId}' / correlationId: '{correlationId}')", message.GetType().Name, fullMessage.SourceAppId, (message as MessageFormats.HostServices.Sensor.SensorsAvailableResponse)?.ResponseHeader.TrackingId, (message as MessageFormats.HostServices.Sensor.SensorsAvailableResponse)?.ResponseHeader.CorrelationId);
+                    _logger.LogInformation("Processing message type '{messageType}' from '{sourceApp}' (trackingId: '{trackingId}' / correlationId: '{correlationId}' / status: '{status}')", message.GetType().Name, fullMessage.SourceAppId, (message as MessageFormats.HostServices.Sensor.SensorsAvailableResponse)?.ResponseHeader.TrackingId, (message as MessageFormats.HostServices.Sensor.SensorsAvailableResponse)?.ResponseHeader.CorrelationId, (message as MessageFormats.HostServices.Sensor.SensorsAvailableResponse)?.ResponseHeader.Status);
 
                     if (MessageReceivedEvent == null) break;
 
@@ -51,7 +51,7 @@ public partial class MessageHandler<T> : Microsoft.Azure.SpaceFx.Core.IMessageHa
                     TaskingPreCheckRequestHandler(message: message as MessageFormats.HostServices.Sensor.TaskingPreCheckRequest, fullMessage: fullMessage);
                     break;
                 case string messageType when messageType.Equals(typeof(MessageFormats.HostServices.Sensor.TaskingPreCheckResponse).Name, StringComparison.CurrentCultureIgnoreCase):
-                    _logger.LogInformation("Processing message type '{messageType}' from '{sourceApp}' (trackingId: '{trackingId}' / correlationId: '{correlationId}')", message.GetType().Name, fullMessage.SourceAppId, (message as MessageFormats.HostServices.Sensor.TaskingPreCheckResponse)?.ResponseHeader.TrackingId, (message as MessageFormats.HostServices.Sensor.TaskingPreCheckResponse)?.ResponseHeader.CorrelationId);
+                    _logger.LogInformation("Processing message type '{messageType}' from '{sourceApp}' (trackingId: '{trackingId}' / correlationId: '{correlationId}' / status: '{status}')", message.GetType().Name, fullMessage.SourceAppId, (message as MessageFormats.HostServices.Sensor.TaskingPreCheckResponse)?.ResponseHeader.TrackingId, (message as MessageFormats.HostServices.Sensor.TaskingPreCheckResponse)?.ResponseHeader.CorrelationId, (message as MessageFormats.HostServices.Sensor.TaskingPreCheckResponse)?.ResponseHeader.Status);
 
                     if (MessageReceivedEvent == null) break;
 
@@ -64,7 +64,7 @@ public partial class MessageHandler<T> : Microsoft.Azure.SpaceFx.Core.IMessageHa
                     TaskingRequestHandler(message: message as MessageFormats.HostServices.Sensor.TaskingRequest, fullMessage: fullMessage);
                     break;
                 case string messageType when messageType.Equals(typeof(MessageFormats.HostServices.Sensor.TaskingResponse).Name, StringComparison.CurrentCultureIgnoreCase):
-                    _logger.LogInformation("Processing message type '{messageType}' from '{sourceApp}' (trackingId: '{trackingId}' / correlationId: '{correlationId}')", message.GetType().Name, fullMessage.SourceAppId, (message as MessageFormats.HostServices.Sensor.TaskingResponse)?.ResponseHeader.TrackingId, (message as MessageFormats.HostServices.Sensor.TaskingResponse)?.ResponseHeader.CorrelationId);
+                    _logger.LogInformation("Processing message type '{messageType}' from '{sourceApp}' (trackingId: '{trackingId}' / correlationId: '{correlationId}' / status: '{status}')", message.GetType().Name, fullMessage.SourceAppId, (message as MessageFormats.HostServices.Sensor.TaskingResponse)?.ResponseHeader.TrackingId, (message as MessageFormats.HostServices.Sensor.TaskingResponse)?.ResponseHeader.CorrelationId, (message as MessageFormats.HostServices.Sensor.TaskingResponse)?.ResponseHeader.Status);
 
                     if (MessageReceivedEvent == null) break;
 
