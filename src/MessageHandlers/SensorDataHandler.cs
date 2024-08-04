@@ -43,6 +43,8 @@ public partial class MessageHandler<T> {
             }
 
 
+            // TODO: Add async service to check if services are online and if not, remove their permissions
+
             // No destination App ID, and no tracking ID specified.  Route the message to any subscribers
             if (string.IsNullOrWhiteSpace(message.DestinationAppId)) {
                 _logger.LogTrace("Message '{messageType}' is a broadcast (message has no DestinationAppId) (trackingId: '{trackingId}' / correlationId: '{correlationId}' / status: '{status}')", message.GetType().Name, message.ResponseHeader.TrackingId, message.ResponseHeader.CorrelationId, message.ResponseHeader.Status);
@@ -54,25 +56,13 @@ public partial class MessageHandler<T> {
                 // Loop through and broadcast out
                 if (sensor_subscriptions.Values.Count > 0) {
                     foreach (Google.Protobuf.WellKnownTypes.Value sensor_subscription in sensor_subscriptions.Values) {
-                        var list = Core.ServicesOnline();
-                        if (Core.ServicesOnline().Any(heartbeat_pulse => heartbeat_pulse.AppId.Equals(sensor_subscription.StringValue, StringComparison.InvariantCultureIgnoreCase))) {
-                            _logger.LogInformation("Sending message '{messageType}' to '{appId}'  (trackingId: '{trackingId}' / correlationId: '{correlationId}' / status: '{status}')", message.GetType().Name, sensor_subscription.StringValue, message.ResponseHeader.TrackingId, message.ResponseHeader.CorrelationId, message.ResponseHeader.Status);
-                            _client.DirectToApp(appId: sensor_subscription.StringValue, message: message).Wait();
-                        } else {
-                            _logger.LogError("Unable to route message '{messageType}'.  '{appId}' is not online. (trackingId: '{trackingId}' / correlationId: '{correlationId}' / status: '{status}')", message.GetType().Name, sensor_subscription.StringValue, message.ResponseHeader.TrackingId, message.ResponseHeader.CorrelationId, message.ResponseHeader.Status);
-                        }
+                        _logger.LogInformation("Sending message '{messageType}' to '{appId}'  (trackingId: '{trackingId}' / correlationId: '{correlationId}' / status: '{status}')", message.GetType().Name, sensor_subscription.StringValue, message.ResponseHeader.TrackingId, message.ResponseHeader.CorrelationId, message.ResponseHeader.Status);
+                        _client.DirectToApp(appId: sensor_subscription.StringValue, message: message).Wait();
                     }
                 }
             } else {
-                // Original app ID is online.  Send the message and then end cleanly
-                if (Core.ServicesOnline().Any(heartbeat_pulse => heartbeat_pulse.AppId.Equals(message.DestinationAppId, StringComparison.InvariantCultureIgnoreCase))) {
                     _logger.LogInformation("Sending message '{messageType}' to '{appId}'  (trackingId: '{trackingId}' / correlationId: '{correlationId}' / status: '{status}')", message.GetType().Name, message.DestinationAppId, message.ResponseHeader.TrackingId, message.ResponseHeader.CorrelationId, message.ResponseHeader.Status);
-
-                    // Append the sensor ID for topic suffix so we can authZ the response going back to the app
                     _client.DirectToApp(appId: message.DestinationAppId, message: message).Wait();
-                } else {
-                    _logger.LogError("Unable to route message '{messageType}'.  '{appId}' is not online. (trackingId: '{trackingId}' / correlationId: '{correlationId}' / status: '{status}')", message.GetType().Name, message.DestinationAppId, message.ResponseHeader.TrackingId, message.ResponseHeader.CorrelationId, message.ResponseHeader.Status);
-                }
             }
         };
     }
